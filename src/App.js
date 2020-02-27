@@ -1,28 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Player from './components/Player';
 import Table from './components/Table';
 import Card from './components/Card';
 import './App.css';
 
-export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playerNumber: 1,
-      player1: {},
-      player2: {},
-      player3: {},
-      player4: {},
-      deck: [],
-      cardsInPlay: {
-        player1: {},
-        player2: {},
-        player3: {},
-        player4: {}
-      }
-    };
-  }
-  generateDeck = () => {
+const App = () => {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     playerNumber: 1,
+  //     player1: {},
+  //     player2: {},
+  //     player3: {},
+  //     player4: {},
+  //     deck: [],
+  //     cardsInPlay: {
+  //       player1: {},
+  //       player2: {},
+  //       player3: {},
+  //       player4: {}
+  //     }
+  //   };
+  // }
+
+  const [players, setPlayers] = useState({
+    player1: {},
+    player2: {},
+    player3: {},
+    player4: {}
+  });
+  const [deck, setDeck] = useState([]);
+
+  const [cardsInPlay, setCardsInPlay] = useState({
+    player1: {},
+    player2: {},
+    player3: {},
+    player4: {}
+  });
+
+  const generateDeck = () => {
     const suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds'];
     const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     const values = [
@@ -52,55 +68,55 @@ export class App extends Component {
         });
       }
     }
-    this.setState({ deck: tempDeck });
+    setDeck(tempDeck);
     console.log('Generated deck');
   };
-  printDeck = () => {
-    console.log(this.state.deck);
+  const printDeck = () => {
+    console.log(deck);
   };
-  printHands = () => {
-    console.log(
-      this.state.player1,
-      this.state.player2,
-      this.state.player3,
-      this.state.player4
-    );
+  const printHands = () => {
+    for (let i = 1; i <= 4; i++) {
+      console.log(
+        `Player ${i}`,
+        players[`player${i}`].hand.map(card => card.name)
+      );
+    }
   };
-  shuffleDeck = () => {
-    let tempDeck = this.state.deck;
+  const shuffleDeck = () => {
+    let tempDeck = deck;
     for (let i = 0; i < tempDeck.length; i++) {
       let j = Math.floor(Math.random() * tempDeck.length);
       let temp = tempDeck[i];
       tempDeck[i] = tempDeck[j];
       tempDeck[j] = temp;
     }
+    setDeck(tempDeck);
     console.log('Shuffled deck');
   };
-  dealCards = () => {
+  const dealCards = () => {
+    let tempPlayers = players;
     for (let i = 1; i <= 4; i++) {
       let tempPlayer = { hand: [], score: 0 };
       for (let j = 0; j < 13; j++) {
         let cardIndex = j + (i - 1) * 13;
-        tempPlayer.hand.push(this.state.deck[cardIndex]);
+        tempPlayer.hand.push(deck[cardIndex]);
       }
-      this.setState({ [`player${i}`]: tempPlayer });
+      tempPlayers[`player${i}`] = tempPlayer;
+      setPlayers(tempPlayers);
     }
     console.log('Dealt cards');
   };
-  playCard = () => {};
-  render() {
-    return (
-      <>
-        <button onClick={this.generateDeck}>Generate Deck</button>
-        <button onClick={this.shuffleDeck}>Shuffle Deck</button>
-        <button onClick={this.printDeck}>Print Deck</button>
-        <button onClick={this.dealCards}>Deal Cards</button>
-        <button onClick={this.printHands}>Print Hands</button>
-        <Table />
-        <Player data={this.state.player1} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <button onClick={generateDeck}>Generate Deck</button>
+      <button onClick={shuffleDeck}>Shuffle Deck</button>
+      <button onClick={printDeck}>Print Deck</button>
+      <button onClick={dealCards}>Deal Cards</button>
+      <button onClick={printHands}>Print Hands</button>
+      <Table />
+      <Player data={players.player1} />
+    </>
+  );
+};
 
 export default App;

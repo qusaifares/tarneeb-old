@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Player extends Component {
-  render() {
-    return <div></div>;
-  }
-}
+const Player = () => {
+  return <div></div>;
+};
 
 export default Player;
