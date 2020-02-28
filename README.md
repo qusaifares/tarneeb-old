@@ -1,8 +1,19 @@
 # Tarneeb
 
+## Table of Contents:
+
+- [Introduction](https://github.com/qusaifares/tarneeb#Introduction)
+- [Rules](#rules)
+  - [Players and Cards](#players-and-cards)
+  - [Pre-Game](#pre-game)
+    - [Deal](deal)
+    - [Bidding](#bidding)
+  - [Gameplay](#gameplay)
+    - [Scoring](#scoring)
+
 ## Introduction
 
-Tarneeb, an Arabic word literally meaning trump, is a plain trick-taking card game played in various middle eastern countries, most notably in the countries of the Levant and also in Tanzania. The game may be considered a variation of Whist, or a version of Spades.
+Tarneeb, an Arabic word literally meaning trump, is a plain trick-taking card game played in various middle eastern countries, most notably in the countries of the Levant and also in Tanzania. Tarneeb can be traced back to the Levant, more specifically Syria, Egypt, Lebanon, Jordan, and Palestine. The game may be considered a variation of Whist, or a version of Spades.
 
 ## Rules
 
