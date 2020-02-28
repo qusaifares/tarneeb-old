@@ -2,16 +2,21 @@
 
 ## Table of Contents:
 
-- [Introduction](https://github.com/qusaifares/tarneeb#Introduction)
+- [Introduction](#introduction)
+- [About](#about)
 - [Rules](#rules)
   - [Players and Cards](#players-and-cards)
   - [Pre-Game](#pre-game)
-    - [Deal](deal)
+    - [Deal](#deal)
     - [Bidding](#bidding)
   - [Gameplay](#gameplay)
   - [Scoring](#scoring)
 
 ## Introduction
+
+Tarneeb is an online multiplayer card game.
+
+## About
 
 Tarneeb, an Arabic word literally meaning trump, is a plain trick-taking card game played in various middle eastern countries, most notably in the countries of the Levant and also in Tanzania. Tarneeb can be traced back to the Levant, more specifically Syria, Egypt, Lebanon, Jordan, and Palestine. The game may be considered a variation of Whist, or a version of Spades.
 
@@ -47,7 +52,7 @@ Tarneeb is played counterclockwise. Players must follow suit if able to. Those u
 
 Each trick is won by the highest trump in it, or by the highest card of the suit led if it contains no trumps.
 
-#### Scoring
+### Scoring
 
 The bidder’s team tries to take as many tricks as they can or at least as many tricks as they bid.
 
@@ -58,3 +63,22 @@ Winning all 13 tricks is called kaboot. If the bid was less than 13, kaboot brin
 If a team bids 13 tricks and wins them all, they score 26 points. If they lose any tricks, they score minus 16 and the other team scores double the number the tricks that they win.
 
 Further hands are played until one team achieves a cumulative score of 31 points or more, and wins the game.
+
+## Technologies
+
+#### Front End
+
+- HTML
+- CSS
+- JavaScript
+  - React
+- Socket&#46;io (client)
+
+#### Back End
+
+- JavaScript
+  - Node
+  - Express
+- MongoDB
+- Mongoose
+- Socket&#46;io (server)
