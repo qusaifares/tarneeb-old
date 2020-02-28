@@ -150,6 +150,51 @@ const Game = () => {
     // increment cardsInPlay count
     tempInPlay.count++;
     setCardsInPlay(tempInPlay);
+
+    // remove card from player hand
+    // PLAYER 1
+    console.log(tempInPlay);
+    if (e.target.dataset.player === 'player1') {
+      let tempPlayer = player1;
+      const i = tempPlayer.hand.findIndex(
+        card => card.name === tempInPlay[tempPlayer.id].name
+      );
+      if (i > -1) {
+        tempPlayer.hand.splice(i, 1);
+      }
+      setPlayer1(tempPlayer);
+      // PLAYER 2
+    } else if (e.target.dataset.player === 'player2') {
+      let tempPlayer = player2;
+      const i = tempPlayer.hand.findIndex(
+        card => card.name === tempInPlay[tempPlayer.id].name
+      );
+      if (i > -1) {
+        tempPlayer.hand.splice(i, 1);
+      }
+      setPlayer2(tempPlayer);
+      // PLAYER 3
+    } else if (e.target.dataset.player === 'player3') {
+      let tempPlayer = player3;
+      const i = tempPlayer.hand.findIndex(
+        card => card.name === tempInPlay[tempPlayer.id].name
+      );
+      if (i > -1) {
+        tempPlayer.hand.splice(i, 1);
+      }
+      setPlayer3(tempPlayer);
+      // PLAYER 4
+    } else if (e.target.dataset.player === 'player4') {
+      let tempPlayer = player4;
+      const i = tempPlayer.hand.findIndex(
+        card => card.name === tempInPlay[tempPlayer.id].name
+      );
+      if (i > -1) {
+        tempPlayer.hand.splice(i, 1);
+      }
+      setPlayer4(tempPlayer);
+    }
+
     forceUpdate(); // forces rerender
   };
   const forceUpdate = useForceUpdate();
