@@ -9,7 +9,7 @@
     - [Deal](deal)
     - [Bidding](#bidding)
   - [Gameplay](#gameplay)
-    - [Scoring](#scoring)
+  - [Scoring](#scoring)
 
 ## Introduction
 

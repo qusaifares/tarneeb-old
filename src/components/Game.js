@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import Player from './Player';
+import Player1 from './player/Player1';
+import Player2 from './player/Player2';
+import Player3 from './player/Player3';
+import Player4 from './player/Player4';
 import OtherPlayer from './OtherPlayer';
 import Table from './Table';
 import InPlay from './InPlay';
 import Card from './Card';
+import { Link, Switch, Route } from 'react-router-dom';
+
 import useForceUpdate from './useForceUpdate';
 
 const Game = () => {
@@ -155,11 +160,32 @@ const Game = () => {
       <button onClick={printDeck}>Print Deck</button>
       <button onClick={dealCards}>Deal Cards</button>
       <button onClick={printHands}>Print Hands</button>
+      <Link to="/play/1">Player 1</Link>
+      <Link to="/play/2">Player 2</Link>
+      <Link to="/play/3">Player 3</Link>
+      <Link to="/play/4">Player 4</Link>
       <div className="table">
         <div className="player-3"></div>
         <Table />
         <InPlay cards={cardsInPlay} />
-        <Player player={player1} playCard={playCard} />
+        <Switch>
+          <Route
+            path="/play/1"
+            component={() => <Player1 player={player1} playCard={playCard} />}
+          />
+          <Route
+            path="/play/2"
+            component={() => <Player2 player={player2} playCard={playCard} />}
+          />
+          <Route
+            path="/play/3"
+            component={() => <Player3 player={player3} playCard={playCard} />}
+          />
+          <Route
+            path="/play/4"
+            component={() => <Player4 player={player4} playCard={playCard} />}
+          />
+        </Switch>
         <OtherPlayer player={player2} />
         <OtherPlayer player={player3} />
         <OtherPlayer player={player4} />
