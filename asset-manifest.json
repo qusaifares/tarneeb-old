@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/tarneeb/static/css/main.a29d6e4a.chunk.css",
+    "main.js": "/tarneeb/static/js/main.dc62e1c4.chunk.js",
+    "main.js.map": "/tarneeb/static/js/main.dc62e1c4.chunk.js.map",
+    "runtime-main.js": "/tarneeb/static/js/runtime-main.7f4546bc.js",
+    "runtime-main.js.map": "/tarneeb/static/js/runtime-main.7f4546bc.js.map",
+    "static/js/2.dea2a224.chunk.js": "/tarneeb/static/js/2.dea2a224.chunk.js",
+    "static/js/2.dea2a224.chunk.js.map": "/tarneeb/static/js/2.dea2a224.chunk.js.map",
+    "index.html": "/tarneeb/index.html",
+    "precache-manifest.a95c2a7c9d67aaec56c2bed008c600f3.js": "/tarneeb/precache-manifest.a95c2a7c9d67aaec56c2bed008c600f3.js",
+    "service-worker.js": "/tarneeb/service-worker.js",
+    "static/css/main.a29d6e4a.chunk.css.map": "/tarneeb/static/css/main.a29d6e4a.chunk.css.map",
+    "static/js/2.dea2a224.chunk.js.LICENSE.txt": "/tarneeb/static/js/2.dea2a224.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7f4546bc.js",
+    "static/js/2.dea2a224.chunk.js",
+    "static/css/main.a29d6e4a.chunk.css",
+    "static/js/main.dc62e1c4.chunk.js"
+  ]
+}
