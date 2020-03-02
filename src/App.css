@@ -1,12 +1,24 @@
+:root {
+  --prim: rgb(31, 33, 50);
+  --sec: rgb(206, 59, 71);
+  --ter: rgb(23, 25, 37);
+}
+
 * {
   margin: 0;
   padding: 0;
   text-decoration: none;
   list-style: none;
+  box-sizing: border-box;
 }
 
 body {
-  background: rgb(52, 52, 52);
+  background: var(--ter);
+}
+
+.room-link {
+  color: white;
+  font-size: 2rem;
 }
 
 .table {

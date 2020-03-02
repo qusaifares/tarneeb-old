@@ -1,0 +1,74 @@
+:root {
+  --prim: rgb(31, 33, 50);
+  --sec: rgb(206, 59, 71);
+  --ter: rgb(23, 25, 37);
+}
+
+.login-form {
+  background: var(--prim);
+  padding: 40px;
+  max-width: 650px;
+  margin: 40px auto;
+  border-radius: 3px;
+  color: white;
+  display: grid;
+  grid-template-areas:
+    'heading heading'
+    'user password'
+    'btn btn';
+}
+
+.login-form h3 {
+  font-size: 2rem;
+  grid-area: heading;
+  margin: 20px auto;
+}
+
+.login-input {
+  display: block;
+  background: var(--ter);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  outline: none;
+  height: 40px;
+  width: 250px;
+  font-size: 1.4rem;
+  padding: 10px;
+  margin: 20px 10px;
+  color: white;
+}
+
+.login-input:focus {
+  border: 1px solid var(--sec);
+}
+
+.user-input {
+  grid-area: user;
+}
+
+.password-input {
+  grid-area: password;
+}
+
+.login-btn {
+  height: 40px;
+  width: 200px;
+  padding: 0;
+  font-size: 1.5rem;
+  border-radius: 0;
+  background: var(--sec);
+  color: white;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid var(--prim);
+  grid-area: btn;
+  margin: 20px auto;
+  transition: 0.2s all ease;
+}
+
+.login-btn:hover {
+  background: var(--ter);
+}
+
+.login-btn:active {
+  border-color: var(--sec);
+}
