@@ -1,16 +1,49 @@
-:root {
-  --prim: rgb(31, 33, 50);
-  --sec: rgb(206, 59, 71);
-  --ter: rgb(23, 25, 37);
+#login {
+  background: rgb(235, 212, 195);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form-switch {
+  background: var(--prim);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: fit-content;
+}
+
+.selector {
+  text-align: center;
+  font-size: 1.3rem;
+  width: 100px;
+  height: 50px;
+  line-height: 50px; /* Keep same as height */
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+.selector.inactive {
+  background: var(--disabled);
+}
+
+.selector.active {
+  background: var(--prim);
+}
+
+.selector.inactive:hover {
+  background: var(--ter);
 }
 
 .login-form {
   background: var(--prim);
   padding: 40px;
   max-width: 650px;
-  margin: 40px auto;
+  margin: 0 auto;
   border-radius: 3px;
-  color: white;
   display: grid;
   grid-template-areas:
     'heading heading'
@@ -38,7 +71,7 @@
 }
 
 .login-input:focus {
-  border: 1px solid var(--sec);
+  border: 2px solid var(--sec);
 }
 
 .user-input {
@@ -59,10 +92,10 @@
   color: white;
   cursor: pointer;
   outline: none;
-  border: 2px solid var(--prim);
   grid-area: btn;
   margin: 20px auto;
   transition: 0.2s all ease;
+  border-color: var(--sec);
 }
 
 .login-btn:hover {
@@ -70,5 +103,5 @@
 }
 
 .login-btn:active {
-  border-color: var(--sec);
+  border: 2px solid var(--prim);
 }

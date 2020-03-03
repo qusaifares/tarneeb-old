@@ -12,12 +12,12 @@ const Card = ({ card, playCard }) => {
       <img
         onClick={playCard}
         src={`${process.env.PUBLIC_URL}/images/cards/${
-          !isNaN(card.value) ? card.value : card.value.charAt(0)
+          !isNaN(card.rank) ? card.rank : card.rank.charAt(0)
         }${card.suit.charAt(0)}.png`}
         alt={card.name}
         data-suit={card.suit}
+        data-rank={card.rank}
         data-value={card.value}
-        data-number={card.number}
         data-name={card.name}
         data-power={card.power}
         data-player={card.player}

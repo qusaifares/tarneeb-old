@@ -15,12 +15,39 @@ const Login = ({ saveUser }) => {
 
   const submitLogin = e => {
     e.preventDefault();
+    const info = {
+      username: userString,
+      password: passwordString
+    };
+    console.log(info);
+    fetch(`${url}/users/login`, {
+      method: 'POST',
+      body: JSON.stringify(info),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        saveUser(data);
+        history.push('/tarneeb/rooms');
+      })
+      .catch(console.error);
+  };
+
+  const submitSignup = e => {
+    e.preventDefault();
+    const info = {
+      username: userString,
+      password: passwordString
+    };
+    console.log(info);
     fetch(`${url}/users/create`, {
       method: 'POST',
-      body: JSON.stringify({
-        username: userString,
-        password: passwordString
-      })
+      body: JSON.stringify(info),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
       .then(res => res.json())
       .then(data => console.log(data))
@@ -28,8 +55,31 @@ const Login = ({ saveUser }) => {
   };
   return (
     <section id="login">
-      <form method="POST" className="login-form" onSubmit={submitLogin}>
-        <h3>Welcome</h3>
+      <div className="form-switch">
+        <div
+          onClick={() => setFormType('signup')}
+          className={`signup-selector selector ${
+            formType === 'signup' ? 'active' : 'inactive'
+          }`}
+        >
+          Sign Up
+        </div>
+        <div
+          onClick={() => setFormType('login')}
+          className={`login-selector selector ${
+            formType === 'login' ? 'active' : 'inactive'
+          }`}
+        >
+          Log In
+        </div>
+      </div>
+      <form
+        autocomplete="off"
+        method="POST"
+        className="login-form"
+        onSubmit={formType === 'login' ? submitLogin : submitSignup}
+      >
+        <h3>{formType === 'login' ? 'Welcome back' : 'Create account'}</h3>
         <input
           onChange={e => setUserString(e.target.value)}
           className="login-input user-input"
@@ -42,14 +92,14 @@ const Login = ({ saveUser }) => {
         <input
           onChange={e => setPasswordString(e.target.value)}
           className="login-input password-input"
-          type="text"
+          type="password"
           name="passwordString"
           id="passwordString"
           value={passwordString}
           placeholder="Password"
         />
         <button className="login-btn" type="submit">
-          Log In
+          {formType === 'login' ? 'Log In' : 'Sign Up'}
         </button>
       </form>
     </section>

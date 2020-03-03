@@ -1,7 +1,8 @@
 :root {
-  --prim: rgb(31, 33, 50);
+  --prim: rgb(46, 50, 79);
   --sec: rgb(206, 59, 71);
   --ter: rgb(23, 25, 37);
+  --disabled: rgb(80, 73, 67);
 }
 
 * {
@@ -13,7 +14,7 @@
 }
 
 body {
-  background: var(--ter);
+  background: rgb(10, 12, 20);
 }
 
 .room-link {
@@ -27,6 +28,33 @@ body {
   grid-template-rows: 180px 1fr 300px;
   grid-template-columns: 150px 1fr 150px;
   min-height: 100vh;
+}
+
+.teams-modal {
+  background: var(--prim);
+  color: white;
+  position: fixed;
+  height: 400px;
+  width: 400px;
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.team-select {
+  border: 1px solid var(--sec);
+  height: 180px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.player-select {
+  cursor: pointer;
 }
 
 button {

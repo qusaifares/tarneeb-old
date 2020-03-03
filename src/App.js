@@ -18,7 +18,7 @@ const App = () => {
         />
         <Route path="/tarneeb/rooms" exact component={Rooms} />
         <Route
-          path="/tarneeb/rooms/:room"
+          path="/tarneeb/rooms/:roomName"
           exact
           render={routerProps => <Game match={routerProps.match} />}
         />
