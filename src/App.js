@@ -14,13 +14,22 @@ const App = () => {
         <Route
           path="/tarneeb"
           exact
-          render={routerProps => <Login saveUser={setUsername} />}
+          render={routerProps => (
+            <Login saveUser={setUsername} username={username} />
+          )}
         />
-        <Route path="/tarneeb/rooms" exact component={Rooms} />
+        <Route
+          path="/tarneeb/rooms"
+          exact
+          component={Rooms}
+          username={username}
+        />
         <Route
           path="/tarneeb/rooms/:roomName"
           exact
-          render={routerProps => <Game match={routerProps.match} />}
+          render={routerProps => (
+            <Game match={routerProps.match} username={username} />
+          )}
         />
       </Switch>
     </>

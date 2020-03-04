@@ -36,9 +36,13 @@ const Rooms = () => {
         <input type="submit" value="Create" />
       </form>
       <div className="room-list"></div>
-      {Object.keys(rooms).map(room => (
-        <Link className="room-link" to={`/tarneeb/rooms/${room}`}>
-          {room}
+      {Object.keys(rooms).map(roomName => (
+        <Link
+          className="room-link"
+          to={`/tarneeb/rooms/${roomName}`}
+          key={roomName}
+        >
+          {roomName}
         </Link>
       ))}
     </div>

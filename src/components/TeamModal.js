@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import useForceUpdate from './useForceUpdate';
 
 const TeamModal = ({ playerNames, setSeat }) => {
+  const forceupdate = useForceUpdate();
+  useEffect(() => {
+    console.log('updated modal');
+    forceupdate();
+  }, [playerNames]);
   return (
     <div className="teams-modal">
       <div className="team-1-select team-select">
@@ -19,7 +25,7 @@ const TeamModal = ({ playerNames, setSeat }) => {
           data-team={1}
           data-number={3}
         >
-          Player 3
+          {playerNames.player3 ? playerNames.player3 : 'Player 3'}
         </div>
       </div>
       <div className="team-2-select team-select">
@@ -30,7 +36,7 @@ const TeamModal = ({ playerNames, setSeat }) => {
           data-team={2}
           data-number={2}
         >
-          Player 2
+          {playerNames.player2 ? playerNames.player2 : 'Player 2'}
         </div>
         <div
           onClick={setSeat}
@@ -38,7 +44,7 @@ const TeamModal = ({ playerNames, setSeat }) => {
           data-team={2}
           data-number={4}
         >
-          Player 4
+          {playerNames.player4 ? playerNames.player4 : 'Player 4'}
         </div>
       </div>
     </div>

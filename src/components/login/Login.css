@@ -1,15 +1,18 @@
 #login {
-  background: rgb(235, 212, 195);
-  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   min-height: 100vh;
+  background: #fff;
+}
+
+.login-bg {
+  transform: scaleY(-1.4) rotate(100deg) translate(-50px, 170px);
+  position: fixed;
 }
 
 .form-switch {
-  background: var(--prim);
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -26,60 +29,62 @@
   transition: 0.2s all;
 }
 
-.selector.inactive {
-  background: var(--disabled);
-}
-
 .selector.active {
   background: var(--prim);
-}
-
-.selector.inactive:hover {
-  background: var(--ter);
+  color: white;
 }
 
 .login-form {
-  background: var(--prim);
+  margin-right: 10rem;
   padding: 40px;
-  max-width: 650px;
-  margin: 0 auto;
+  max-width: 750px;
   border-radius: 3px;
-  display: grid;
-  grid-template-areas:
-    'heading heading'
-    'user password'
-    'btn btn';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.2);
 }
 
 .login-form h3 {
   font-size: 2rem;
-  grid-area: heading;
   margin: 20px auto;
+  text-transform: capitalize;
+}
+
+.input-container {
+  margin: 20px 10px;
+  position: relative;
 }
 
 .login-input {
   display: block;
-  background: var(--ter);
   border: 1px solid rgba(255, 255, 255, 0.5);
   outline: none;
   height: 40px;
   width: 250px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   padding: 10px;
-  margin: 20px 10px;
-  color: white;
+  background: transparent;
+  border-bottom: 2px solid var(--prim);
 }
 
 .login-input:focus {
-  border: 2px solid var(--sec);
+  border-bottom: 2px solid var(--sec);
 }
 
-.user-input {
-  grid-area: user;
+.input-container label {
+  position: absolute;
+  z-index: -1;
+  top: 28%;
+  left: 10px;
+  transition: 0.2s all ease;
 }
 
-.password-input {
-  grid-area: password;
+.input-container:focus-within > label,
+.input-container.focus > label {
+  top: -15px;
+  font-size: 0.8rem;
 }
 
 .login-btn {
@@ -87,7 +92,7 @@
   width: 200px;
   padding: 0;
   font-size: 1.5rem;
-  border-radius: 0;
+  border-radius: 20px;
   background: var(--sec);
   color: white;
   cursor: pointer;
@@ -104,4 +109,10 @@
 
 .login-btn:active {
   border: 2px solid var(--prim);
+}
+
+@media (max-width: 950px) {
+  .login-bg {
+    display: none;
+  }
 }
