@@ -17,17 +17,19 @@ const Game = props => {
     username: '',
     hand: [],
     score: 0,
-    team: 0
+    team: 0,
+    bid: 0
   });
+  const [playerNumber, setPlayerNumber] = useState(0);
   const [playerNames, setPlayerNames] = useState({
     player1: null,
     player2: null,
     player3: null,
     player4: null
   });
-  const [playerNumber, setPlayerNumber] = useState();
   const [roomName, setRoomName] = useState(props.match.params.roomName);
 
+  // on initial render
   useEffect(() => {
     let tempPlayer = player;
     tempPlayer.username = props.username;
@@ -36,23 +38,7 @@ const Game = props => {
     socket.on('return_deck', data => {
       console.log(data);
     });
-    socket.on('return_room', room => {
-      console.log('room', room);
-      console.log('pnum', playerNumber);
-      if (room) {
-        if (playerNumber) {
-          console.log(room);
-          setPlayer(room.players[`player${playerNumber}`]);
-        }
-        setPlayerNames({
-          player1: room.players.player1.username,
-          player2: room.players.player2.username,
-          player3: room.players.player3.username,
-          player4: room.players.player4.username
-        });
-        console.log('player', player);
-      }
-    });
+
     socket.on('return_seats', data => {
       console.log('SEATS RETURNED', data);
       if (data) {
@@ -66,7 +52,6 @@ const Game = props => {
           player4: data.room.player4.username
         });
         console.log('player', player);
-        forceUpdate();
       }
     });
     // Component unmount
@@ -79,6 +64,26 @@ const Game = props => {
       }
     };
   }, []);
+
+  // when playerNumber changes
+  useEffect(() => {
+    socket.on('return_room', room => {
+      console.log('room', room);
+      console.log('pnum', playerNumber);
+      if (room) {
+        if (playerNumber) {
+          setPlayer(room.players[`player${playerNumber}`]);
+        }
+        setPlayerNames({
+          player1: room.players.player1.username,
+          player2: room.players.player2.username,
+          player3: room.players.player3.username,
+          player4: room.players.player4.username
+        });
+        console.log('player', player);
+      }
+    });
+  }, [playerNumber, player]);
 
   const setSeat = e => {
     console.log('data-num', e.target.dataset.number);
@@ -107,14 +112,32 @@ const Game = props => {
 
   return (
     <>
+      {playerNumber ? <h2>Player {playerNumber}</h2> : null}
       <button onClick={generateDeck}>generateDeck</button>
       <button onClick={startGame}>startGame</button>
       <button onClick={() => console.log(playerNames)}>Props</button>
       <div className="table">
-        <div className="player-3"></div>
-        {playerNumber ? <Player player={player} /> : null}
         <Table />
-        <TeamModal setSeat={setSeat} playerNames={playerNames} />
+        <OtherPlayer
+          direction={'north'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <OtherPlayer
+          direction={'east'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <OtherPlayer
+          direction={'west'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <TeamModal
+          setSeat={setSeat}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
       </div>
     </>
   );

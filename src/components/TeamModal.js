@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
-import useForceUpdate from './useForceUpdate';
+import React, { useState } from 'react';
 
-const TeamModal = ({ playerNames, setSeat }) => {
-  const forceupdate = useForceUpdate();
-  useEffect(() => {
-    console.log('updated modal');
-    forceupdate();
-  }, [playerNames]);
+const TeamModal = ({ playerNames, setSeat, playerNumber }) => {
   return (
-    <div className="teams-modal">
+    <div className={`teams-modal ${playerNumber ? 'modal-hidden' : null}`}>
       <div className="team-1-select team-select">
         <h4>Team 1</h4>
         <div
