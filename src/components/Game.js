@@ -4,6 +4,7 @@ import OtherPlayer from './OtherPlayer';
 import Table from './Table';
 import InPlay from './InPlay';
 import TeamModal from './TeamModal';
+import BidModal from './bidModal/BidModal';
 import { Link, Switch, Route } from 'react-router-dom';
 import * as io from 'socket.io-client';
 
@@ -13,6 +14,9 @@ const socket = io('http://localhost:5050');
 
 const Game = props => {
   const forceUpdate = useForceUpdate();
+  const [currentBidder, setCurrentBidder] = useState(0);
+  const [bid, setBid] = useState(0);
+  const [winningBidder, setWinningBidder] = useState(0);
   const [player, setPlayer] = useState({
     username: '',
     hand: [],
@@ -74,6 +78,8 @@ const Game = props => {
         if (playerNumber) {
           setPlayer(room.players[`player${playerNumber}`]);
         }
+        setCurrentBidder(room.currentBidder);
+        setBid(room.bid);
         setPlayerNames({
           player1: room.players.player1.username,
           player2: room.players.player2.username,
@@ -109,6 +115,14 @@ const Game = props => {
   const startGame = () => {
     socket.emit('start_game', roomName);
   };
+  const selectBid = e => {
+    console.log(e.target.dataset);
+    socket.emit('select_bid', {
+      playerNumber,
+      bid: parseInt(e.target.dataset.bid),
+      roomName
+    });
+  };
 
   return (
     <>
@@ -137,6 +151,12 @@ const Game = props => {
           setSeat={setSeat}
           playerNames={playerNames}
           playerNumber={playerNumber}
+        />
+        <BidModal
+          playerNumber={playerNumber}
+          currentBidder={currentBidder}
+          bid={bid}
+          selectBid={selectBid}
         />
       </div>
     </>

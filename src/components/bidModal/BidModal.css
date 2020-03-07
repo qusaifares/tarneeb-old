@@ -1,0 +1,21 @@
+.bid-modal {
+  background: #fff;
+  color: black;
+  display: none;
+  flex-flow: row wrap;
+}
+
+.bid-modal.is-bidding {
+  display: flex;
+}
+
+.bid-option {
+  cursor: pointer;
+  font-size: 1.3rem;
+  width: 30px;
+  background: #e4e4e4;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
