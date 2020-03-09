@@ -7,7 +7,6 @@
 - [Rules](#rules)
   - [Players and Cards](#players-and-cards)
   - [Pre-Game](#pre-game)
-    - [Deal](#deal)
     - [Bidding](#bidding)
   - [Gameplay](#gameplay)
   - [Scoring](#scoring)
@@ -31,10 +30,6 @@ A standard international 52-card pack is used, the cards in each suit ranking fr
 The game is normally played counter-clockwise.
 
 ### Pre-Game
-
-#### Deal
-
-The first dealer is chosen randomly. After each hand the turn to deal passes to the right. The cards are shuffled and cut, and are all dealt out, one at a time so that everyone has 13 cards.
 
 #### Bidding
 
@@ -80,5 +75,5 @@ Further hands are played until one team achieves a cumulative score of 31 points
   - Node
   - Express
 - MongoDB
-- Mongoose
+  - Mongoose
 - Socket&#46;io (server)
