@@ -1,20 +1,65 @@
+:root {
+  --prim: rgb(46, 50, 79);
+  --sec: rgb(206, 59, 71);
+  --ter: rgb(23, 25, 37);
+  --disabled: rgb(80, 73, 67);
+}
+
 * {
   margin: 0;
   padding: 0;
   text-decoration: none;
   list-style: none;
+  box-sizing: border-box;
 }
 
 body {
-  background: rgb(52, 52, 52);
+  background: #323232;
+  color: #fff;
+}
+
+.room-link {
+  color: white;
+  font-size: 2rem;
 }
 
 .table {
   display: grid;
-  grid-template-areas: '. player3 .' 'player4 in-play player2' 'player player player';
+  grid-template-areas: '. player-north .' 'player-west in-play player-east' 'player player player';
   grid-template-rows: 180px 1fr 300px;
   grid-template-columns: 150px 1fr 150px;
   min-height: 100vh;
+}
+
+.teams-modal {
+  background: var(--prim);
+  color: white;
+  position: fixed;
+  height: 400px;
+  width: 400px;
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modal-hidden {
+  display: none;
+}
+
+.team-select {
+  border: 1px solid var(--sec);
+  height: 180px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.player-select {
+  cursor: pointer;
 }
 
 button {
@@ -27,8 +72,8 @@ button:hover {
   background: lightblue;
 }
 
-.player2 .card-back-container,
-.player4 .card-back-container {
+.player-east .card-back-container,
+.player-west .card-back-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,33 +81,33 @@ button:hover {
   padding-top: 4rem;
 }
 
-.player2 .card-back,
-.player4 .card-back {
+.player-east .card-back,
+.player-west .card-back {
   transform: rotate(90deg);
   margin-top: -5.5rem;
 }
 
-.player2 {
-  grid-area: player2;
+.player-east {
+  grid-area: player-east;
 }
 
-.player3 {
-  grid-area: player3;
+.player-north {
+  grid-area: player-north;
 }
 
-.player3 .card-back-container {
+.player-north .card-back-container {
   display: flex;
   justify-content: center;
   padding-top: 20px;
 }
 
-.player3 .card-back {
+.player-north .card-back {
   margin-left: -3rem;
   width: 80px;
 }
 
-.player4 {
-  grid-area: player4;
+.player-west {
+  grid-area: player-west;
 }
 
 .player {

@@ -1,145 +1,141 @@
-import React, { useState } from 'react';
-import Player1 from './player/Player1';
-import Player2 from './player/Player2';
-import Player3 from './player/Player3';
-import Player4 from './player/Player4';
+import React, { useState, useEffect } from 'react';
+import Player from './player/Player';
 import OtherPlayer from './OtherPlayer';
 import Table from './Table';
 import InPlay from './InPlay';
-import Card from './Card';
+import TeamModal from './TeamModal';
+import BidModal from './bidModal/BidModal';
 import { Link, Switch, Route } from 'react-router-dom';
+import * as io from 'socket.io-client';
 
 import useForceUpdate from './useForceUpdate';
 
-const Game = () => {
-  const [player1, setPlayer1] = useState({});
-  const [player2, setPlayer2] = useState({});
-  const [player3, setPlayer3] = useState({});
-  const [player4, setPlayer4] = useState({});
+const socket = io('http://localhost:5050');
 
-  const [deck, setDeck] = useState([]);
-
-  const [cardsInPlay, setCardsInPlay] = useState({
-    player1: {},
-    player2: {},
-    player3: {},
-    player4: {},
-    count: 0
+const Game = props => {
+  const forceUpdate = useForceUpdate();
+  const [currentBidder, setCurrentBidder] = useState(0);
+  const [bid, setBid] = useState(0);
+  const [winningBidder, setWinningBidder] = useState(0);
+  const [player, setPlayer] = useState({
+    username: '',
+    hand: [],
+    score: 0,
+    team: 0,
+    bid: 0
   });
+  const [playerNumber, setPlayerNumber] = useState(0);
+  const [playerNames, setPlayerNames] = useState({
+    player1: null,
+    player2: null,
+    player3: null,
+    player4: null
+  });
+  const [roomName, setRoomName] = useState(props.match.params.roomName);
 
-  //   const [cardsInPlay, setCardsInPlay] = useState({
-  //     player1: {
-  //       suit: 'Spades',
-  //       value: 'King',
-  //       number: 13,
-  //       name: 'King of Spades',
-  //       power: 0,
-  //       player: 'player1'
-  //     },
-  //     player2: {
-  //       suit: 'Spades',
-  //       value: 'Queen',
-  //       number: 12,
-  //       name: 'Queen of Spades',
-  //       power: 0,
-  //       player: 'player2'
-  //     },
-  //     player3: {
-  //       suit: 'Spades',
-  //       value: 'Jack',
-  //       number: 11,
-  //       name: 'Jack of Spades',
-  //       power: 0,
-  //       player: 'player3'
-  //     },
-  //     player4: {
-  //       suit: 'Spades',
-  //       value: 'Ace',
-  //       number: 14,
-  //       name: 'Ace of Spades',
-  //       power: 0,
-  //       player: 'player4'
-  //     }
-  //   });
+  // on initial render
+  useEffect(() => {
+    let tempPlayer = player;
+    tempPlayer.username = props.username;
+    setPlayer(tempPlayer);
+    socket.emit('join_room', props.match.params.roomName);
+    socket.on('return_deck', data => {
+      console.log(data);
+    });
 
-  const generateDeck = () => {
-    const suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds'];
-    const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace'];
-    let tempDeck = [];
-    for (let i = 0; i < suits.length; i++) {
-      for (let j = 0; j < values.length; j++) {
-        tempDeck.push({
-          suit: suits[i],
-          value: values[j],
-          number: numbers[j],
-          name: `${values[j]} of ${suits[i]}`,
-          power: 0
+    socket.on('return_seats', data => {
+      console.log('SEATS RETURNED', data);
+      if (data) {
+        if (playerNumber) {
+          setPlayer(data.room.players[`player${playerNumber}`]);
+        }
+        setPlayerNames({
+          player1: data.room.player1.username,
+          player2: data.room.player2.username,
+          player3: data.room.player3.username,
+          player4: data.room.player4.username
+        });
+        console.log('player', player);
+      }
+    });
+    socket.on('return_bid', data => {
+      console.log(data);
+      setCurrentBidder(data.currentBidder);
+      setWinningBidder(data.winningBidder);
+      setBid(data.bid);
+    });
+    // Component unmount
+    return () => {
+      if (playerNumber) {
+        socket.emit('leave_room', {
+          roomName: props.match.params.roomName,
+          playerNumber
         });
       }
-    }
-    setDeck(tempDeck);
-    console.log('Generated deck');
-  };
+    };
+  }, []);
 
-  const printDeck = () => {
-    console.log(deck);
-  };
+  // when playerNumber changes
+  useEffect(() => {
+    socket.on('return_room', room => {
+      console.log('room', room);
+      console.log('pnum', playerNumber);
+      if (room) {
+        if (playerNumber) {
+          setPlayer(room.players[`player${playerNumber}`]);
+        }
+        setCurrentBidder(room.currentBidder);
+        setBid(room.bid);
+        setPlayerNames({
+          player1: room.players.player1.username,
+          player2: room.players.player2.username,
+          player3: room.players.player3.username,
+          player4: room.players.player4.username
+        });
+        console.log('player', player);
+      }
+    });
+  }, [playerNumber, player]);
 
-  const printHands = () => {
-    console.log(
-      'Player 1:',
-      player1.hand.map(card => card.name)
-    );
-    console.log(
-      'Player 2:',
-      player2.hand.map(card => card.name)
-    );
-    console.log(
-      'Player 3:',
-      player3.hand.map(card => card.name)
-    );
-    console.log(
-      'Player 4:',
-      player4.hand.map(card => card.name)
-    );
+  const setSeat = e => {
+    console.log('data-num', e.target.dataset.number);
+    // Get player number from event target dataset
+    setPlayerNumber(parseInt(e.target.dataset.number));
+    // Change player team and playerNumber
+    let temp = player;
+    temp.team = e.target.dataset.team;
+    temp.username = props.username;
+    setPlayer(temp);
+    console.log('temp', temp);
+    // Tell server we chose seat
+    socket.emit('choose_seat', {
+      player: temp,
+      playerNumber: e.target.dataset.number,
+      roomName: props.match.params.roomName,
+      username: props.username
+    });
   };
-  const shuffleDeck = () => {
-    let tempDeck = deck;
-    for (let i = 0; i < tempDeck.length; i++) {
-      let j = Math.floor(Math.random() * tempDeck.length);
-      let temp = tempDeck[i];
-      tempDeck[i] = tempDeck[j];
-      tempDeck[j] = temp;
-    }
-    setDeck(tempDeck);
-    console.log('Shuffled deck');
+  const generateDeck = () => {
+    socket.emit('generate_deck', 'qusai');
   };
-  const dealCards = () => {
-    for (let i = 1; i <= 4; i++) {
-      let tempPlayer = { id: `player${i}`, hand: [], score: 0, turn: false };
-      for (let j = 0; j < 13; j++) {
-        let cardIndex = j + (i - 1) * 13;
-        let tempCard = deck[cardIndex];
-        tempCard.player = `player${i}`;
-        tempPlayer.hand.push(tempCard);
-      }
-      if (i === 1) {
-        setPlayer1(tempPlayer);
-      } else if (i === 2) {
-        setPlayer2(tempPlayer);
-      } else if (i === 3) {
-        setPlayer3(tempPlayer);
-      } else if (i === 4) {
-        setPlayer4(tempPlayer);
-      }
-    }
-    console.log('Dealt cards');
+  const startGame = () => {
+    socket.emit('start_game', roomName);
+  };
+  const selectBid = e => {
+    console.log(e.target.dataset);
+    const bid =
+      e.target.dataset.bid === 'pass'
+        ? e.target.dataset.bid
+        : parseInt(e.target.dataset.bid);
+    socket.emit('select_bid', {
+      playerNumber,
+      bid,
+      roomName
+    });
   };
 
   const playCard = e => {
-    let tempInPlay = cardsInPlay;
-    tempInPlay[e.target.dataset.player] = {
+    const card = {
       suit: e.target.dataset.suit,
       value: e.target.dataset.value,
       number: e.target.dataset.number,
@@ -147,93 +143,46 @@ const Game = () => {
       power: e.target.dataset.power,
       player: e.target.dataset.player
     };
-    // increment cardsInPlay count
-    tempInPlay.count++;
-    setCardsInPlay(tempInPlay);
-
-    // remove card from player hand
-    // PLAYER 1
-    console.log(tempInPlay);
-    if (e.target.dataset.player === 'player1') {
-      let tempPlayer = player1;
-      const i = tempPlayer.hand.findIndex(
-        card => card.name === tempInPlay[tempPlayer.id].name
-      );
-      if (i > -1) {
-        tempPlayer.hand.splice(i, 1);
-      }
-      setPlayer1(tempPlayer);
-      // PLAYER 2
-    } else if (e.target.dataset.player === 'player2') {
-      let tempPlayer = player2;
-      const i = tempPlayer.hand.findIndex(
-        card => card.name === tempInPlay[tempPlayer.id].name
-      );
-      if (i > -1) {
-        tempPlayer.hand.splice(i, 1);
-      }
-      setPlayer2(tempPlayer);
-      // PLAYER 3
-    } else if (e.target.dataset.player === 'player3') {
-      let tempPlayer = player3;
-      const i = tempPlayer.hand.findIndex(
-        card => card.name === tempInPlay[tempPlayer.id].name
-      );
-      if (i > -1) {
-        tempPlayer.hand.splice(i, 1);
-      }
-      setPlayer3(tempPlayer);
-      // PLAYER 4
-    } else if (e.target.dataset.player === 'player4') {
-      let tempPlayer = player4;
-      const i = tempPlayer.hand.findIndex(
-        card => card.name === tempInPlay[tempPlayer.id].name
-      );
-      if (i > -1) {
-        tempPlayer.hand.splice(i, 1);
-      }
-      setPlayer4(tempPlayer);
-    }
-
-    forceUpdate(); // forces rerender
+    socket.emit('play_card', { playerNumber, card });
   };
-  const forceUpdate = useForceUpdate();
+
   return (
     <>
-      <button onClick={generateDeck}>Generate Deck</button>
-      <button onClick={shuffleDeck}>Shuffle Deck</button>
-      <button onClick={printDeck}>Print Deck</button>
-      <button onClick={dealCards}>Deal Cards</button>
-      <button onClick={printHands}>Print Hands</button>
-      <Link to="/play/1">Player 1</Link>
-      <Link to="/play/2">Player 2</Link>
-      <Link to="/play/3">Player 3</Link>
-      <Link to="/play/4">Player 4</Link>
+      {playerNumber ? <h2>Player {playerNumber}</h2> : null}
+      <button onClick={generateDeck}>generateDeck</button>
+      <button onClick={startGame}>startGame</button>
+      <button onClick={() => console.log(playerNames)}>Props</button>
       <div className="table">
-        <div className="player-3"></div>
         <Table />
-        <InPlay cards={cardsInPlay} />
-        <Switch>
-          <Route
-            path="/play/1"
-            component={() => <Player1 player={player1} playCard={playCard} />}
-          />
-          <Route
-            path="/play/2"
-            component={() => <Player2 player={player2} playCard={playCard} />}
-          />
-          <Route
-            path="/play/3"
-            component={() => <Player3 player={player3} playCard={playCard} />}
-          />
-          <Route
-            path="/play/4"
-            component={() => <Player4 player={player4} playCard={playCard} />}
-          />
-        </Switch>
-        <OtherPlayer player={player2} />
-        <OtherPlayer player={player3} />
-        <OtherPlayer player={player4} />
+        <OtherPlayer
+          direction={'north'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <OtherPlayer
+          direction={'east'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <OtherPlayer
+          direction={'west'}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <Player player={player} playCard={playCard} />
+        <TeamModal
+          setSeat={setSeat}
+          playerNames={playerNames}
+          playerNumber={playerNumber}
+        />
+        <BidModal
+          playerNumber={playerNumber}
+          currentBidder={currentBidder}
+          playerNames={playerNames}
+          winningBidder={winningBidder}
+          bid={bid}
+          selectBid={selectBid}
+        />
       </div>
     </>
   );

@@ -1,0 +1,119 @@
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
+}
+
+.login-bg {
+  transform: scaleY(-1.4) rotate(100deg) translate(-50px, 170px);
+  position: fixed;
+}
+
+.form-switch {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: fit-content;
+}
+
+.selector {
+  text-align: center;
+  font-size: 1.3rem;
+  width: 100px;
+  height: 50px;
+  line-height: 50px; /* Keep same as height */
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+.selector.active {
+  background: var(--prim);
+  color: white;
+}
+
+.login-form {
+  margin-right: 10rem;
+  padding: 40px;
+  max-width: 750px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.2);
+}
+
+.login-form h3 {
+  font-size: 2rem;
+  margin: 20px auto;
+  text-transform: capitalize;
+}
+
+.input-container {
+  margin: 20px 10px;
+  position: relative;
+}
+
+.login-input {
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  outline: none;
+  height: 40px;
+  width: 250px;
+  font-size: 1.2rem;
+  padding: 10px;
+  background: transparent;
+  border-bottom: 2px solid var(--prim);
+}
+
+.login-input:focus {
+  border-bottom: 2px solid var(--sec);
+}
+
+.input-container label {
+  position: absolute;
+  z-index: -1;
+  top: 28%;
+  left: 10px;
+  transition: 0.2s all ease;
+}
+
+.input-container:focus-within > label,
+.input-container.focus > label {
+  top: -15px;
+  font-size: 0.7rem;
+}
+
+.login-btn {
+  height: 40px;
+  width: 200px;
+  padding: 0;
+  font-size: 1.5rem;
+  border-radius: 20px;
+  background: var(--sec);
+  color: white;
+  cursor: pointer;
+  outline: none;
+  grid-area: btn;
+  margin: 20px auto;
+  transition: 0.2s all ease;
+  border-color: var(--sec);
+}
+
+.login-btn:hover {
+  background: var(--ter);
+}
+
+.login-btn:active {
+  border: 2px solid var(--prim);
+}
+
+@media (max-width: 950px) {
+  .login-bg {
+    display: none;
+  }
+}
