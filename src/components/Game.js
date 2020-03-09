@@ -58,6 +58,12 @@ const Game = props => {
         console.log('player', player);
       }
     });
+    socket.on('return_bid', data => {
+      console.log(data);
+      setCurrentBidder(data.currentBidder);
+      setWinningBidder(data.winningBidder);
+      setBid(data.bid);
+    });
     // Component unmount
     return () => {
       if (playerNumber) {
@@ -117,11 +123,27 @@ const Game = props => {
   };
   const selectBid = e => {
     console.log(e.target.dataset);
+    const bid =
+      e.target.dataset.bid === 'pass'
+        ? e.target.dataset.bid
+        : parseInt(e.target.dataset.bid);
     socket.emit('select_bid', {
       playerNumber,
-      bid: parseInt(e.target.dataset.bid),
+      bid,
       roomName
     });
+  };
+
+  const playCard = e => {
+    const card = {
+      suit: e.target.dataset.suit,
+      value: e.target.dataset.value,
+      number: e.target.dataset.number,
+      name: e.target.dataset.name,
+      power: e.target.dataset.power,
+      player: e.target.dataset.player
+    };
+    socket.emit('play_card', { playerNumber, card });
   };
 
   return (
@@ -147,6 +169,7 @@ const Game = props => {
           playerNames={playerNames}
           playerNumber={playerNumber}
         />
+        <Player player={player} playCard={playCard} />
         <TeamModal
           setSeat={setSeat}
           playerNames={playerNames}
@@ -155,6 +178,8 @@ const Game = props => {
         <BidModal
           playerNumber={playerNumber}
           currentBidder={currentBidder}
+          playerNames={playerNames}
+          winningBidder={winningBidder}
           bid={bid}
           selectBid={selectBid}
         />

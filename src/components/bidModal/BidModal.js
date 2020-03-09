@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './BidModal.css';
 
-const BidModal = ({ playerNumber, currentBidder, bid, selectBid }) => {
+const BidModal = ({
+  playerNames,
+  winningBidder,
+  playerNumber,
+  currentBidder,
+  bid,
+  selectBid
+}) => {
   const [bidOptions, setBidOptions] = useState([]);
   useEffect(() => {
     let minBid = Math.max(7, bid + 1);
@@ -18,6 +25,11 @@ const BidModal = ({ playerNumber, currentBidder, bid, selectBid }) => {
         playerNumber && playerNumber === currentBidder ? 'is-bidding' : null
       }`}
     >
+      {bid >= 7 ? (
+        <h4>
+          {playerNames[`player${winningBidder}`]} has bid {bid}
+        </h4>
+      ) : null}
       <div className="bid-option" onClick={selectBid} data-bid="pass">
         Pass
       </div>

@@ -64,7 +64,7 @@ const Login = ({ saveUser, username }) => {
     <section id="login">
       <LoginBg />
       <form
-        autocomplete="off"
+        autoComplete="off"
         method="POST"
         className="login-form"
         onSubmit={formType === 'login' ? submitLogin : submitSignup}

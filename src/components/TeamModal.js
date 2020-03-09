@@ -6,7 +6,7 @@ const TeamModal = ({ playerNames, setSeat, playerNumber }) => {
       <div className="team-1-select team-select">
         <h4>Team 1</h4>
         <div
-          onClick={setSeat}
+          onClick={playerNames.player1 ? null : setSeat}
           className="player-1-select player-select"
           data-team={1}
           data-number={1}
@@ -14,7 +14,7 @@ const TeamModal = ({ playerNames, setSeat, playerNumber }) => {
           {playerNames.player1 ? playerNames.player1 : 'Player 1'}
         </div>
         <div
-          onClick={setSeat}
+          onClick={playerNames.player3 ? null : setSeat}
           className="player-3-select player-select"
           data-team={1}
           data-number={3}
@@ -25,7 +25,7 @@ const TeamModal = ({ playerNames, setSeat, playerNumber }) => {
       <div className="team-2-select team-select">
         <h4>Team 2</h4>
         <div
-          onClick={setSeat}
+          onClick={playerNames.player2 ? null : setSeat}
           className="player-2-select player-select"
           data-team={2}
           data-number={2}
@@ -33,7 +33,7 @@ const TeamModal = ({ playerNames, setSeat, playerNumber }) => {
           {playerNames.player2 ? playerNames.player2 : 'Player 2'}
         </div>
         <div
-          onClick={setSeat}
+          onClick={playerNames.player4 ? null : setSeat}
           className="player-4-select player-select"
           data-team={2}
           data-number={4}
