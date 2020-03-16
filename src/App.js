@@ -7,33 +7,33 @@ import Game from './components/Game';
 import './App.css';
 
 const App = () => {
-  const [username, setUsername] = useState('');
-  return (
-    <>
-      <Switch>
-        <Route
-          path="/tarneeb"
-          exact
-          render={routerProps => (
-            <Login saveUser={setUsername} username={username} />
-          )}
-        />
-        <Route
-          path="/tarneeb/rooms"
-          exact
-          component={Rooms}
-          username={username}
-        />
-        <Route
-          path="/tarneeb/rooms/:roomName"
-          exact
-          render={routerProps => (
-            <Game match={routerProps.match} username={username} />
-          )}
-        />
-      </Switch>
-    </>
-  );
+    const [username, setUsername] = useState('');
+    return (
+        <>
+            <Switch>
+                <Route
+                    path=""
+                    exact
+                    render={routerProps => (
+                        <Login saveUser={setUsername} username={username} />
+                    )}
+                />
+                <Route
+                    path="/rooms"
+                    exact
+                    component={Rooms}
+                    username={username}
+                />
+                <Route
+                    path="/rooms/:roomName"
+                    exact
+                    render={routerProps => (
+                        <Game match={routerProps.match} username={username} />
+                    )}
+                />
+            </Switch>
+        </>
+    );
 };
 
 export default App;
