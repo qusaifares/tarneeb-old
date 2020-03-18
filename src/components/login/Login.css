@@ -44,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: scale(1.2);
+  transform: scale(1);
 }
 
 .login-form h3 {
@@ -85,7 +85,7 @@
 .input-container:focus-within > label,
 .input-container.focus > label {
   top: -15px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 .login-btn {

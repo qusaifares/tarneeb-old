@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Player from './player/Player';
 import OtherPlayer from './OtherPlayer';
 import Table from './Table';
 import InPlay from './InPlay';
 import TeamModal from './TeamModal';
 import BidModal from './bidModal/BidModal';
+import TrumpModal from './trumpModal/TrumpModal';
 import { Link, Switch, Route } from 'react-router-dom';
 import * as io from 'socket.io-client';
 
@@ -13,7 +16,9 @@ import useForceUpdate from './useForceUpdate';
 const socket = io('http://localhost:5050');
 
 const Game = props => {
+  let history = useHistory();
   const forceUpdate = useForceUpdate();
+  const [trumpChooser, setTrumpChooser] = useState(false);
   const [currentBidder, setCurrentBidder] = useState(0);
   const [bid, setBid] = useState(0);
   const [winningBidder, setWinningBidder] = useState(0);
@@ -22,7 +27,9 @@ const Game = props => {
     hand: [],
     score: 0,
     team: 0,
-    bid: 0
+    bid: 0,
+    trumpChooser: false,
+    turn: false
   });
   const [playerNumber, setPlayerNumber] = useState(0);
   const [playerNames, setPlayerNames] = useState({
@@ -35,6 +42,9 @@ const Game = props => {
 
   // on initial render
   useEffect(() => {
+    if (!props.username) {
+      history.push('/');
+    }
     let tempPlayer = player;
     tempPlayer.username = props.username;
     setPlayer(tempPlayer);
@@ -57,12 +67,6 @@ const Game = props => {
         });
         console.log('player', player);
       }
-    });
-    socket.on('return_bid', data => {
-      console.log(data);
-      setCurrentBidder(data.currentBidder);
-      setWinningBidder(data.winningBidder);
-      setBid(data.bid);
     });
     // Component unmount
     return () => {
@@ -93,6 +97,23 @@ const Game = props => {
           player4: room.players.player4.username
         });
         console.log('player', player);
+      }
+    });
+    socket.on('return_bid', data => {
+      console.log(data.players, playerNumber);
+      let tempPlayer = data.players[`player${playerNumber}`];
+      console.log(tempPlayer);
+      if (tempPlayer) {
+        setPlayer(tempPlayer);
+      }
+      setCurrentBidder(data.currentBidder);
+      setWinningBidder(data.winningBidder);
+      setBid(data.bid);
+    });
+    socket.on('end_bid', data => {
+      if (data.highestBidder === playerNumber) {
+        setTrumpChooser(true);
+        setBid(data.highestBid);
       }
     });
   }, [playerNumber, player]);
@@ -131,6 +152,13 @@ const Game = props => {
       playerNumber,
       bid,
       roomName
+    });
+  };
+  const selectTrump = e => {
+    // create rule so only winning bidder can do this
+    socket.emit('select_trump', {
+      playerNumber,
+      trump: e.target.dataset.trump
     });
   };
 
@@ -183,6 +211,7 @@ const Game = props => {
           bid={bid}
           selectBid={selectBid}
         />
+        <TrumpModal trumpChooser={trumpChooser} selectTrump={selectTrump} />
       </div>
     </>
   );

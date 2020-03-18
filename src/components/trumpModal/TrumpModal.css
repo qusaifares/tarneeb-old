@@ -1,0 +1,11 @@
+.trump-modal {
+  display: none;
+}
+
+.trump-modal.active {
+  display: block;
+}
+
+.trump-choice {
+  cursor: pointer;
+}
