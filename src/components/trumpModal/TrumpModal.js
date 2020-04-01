@@ -1,19 +1,19 @@
 import React from 'react';
 import './TrumpModal.css';
 
-const TrumpModal = ({ chooseTrump, trumpChooser }) => {
+const TrumpModal = ({ selectTrump, trumpChooser }) => {
   return (
     <div className={`trump-modal ${trumpChooser ? 'active' : null}`}>
-      <div onClick={chooseTrump} className="trump-choice" data-trump="spades">
+      <div onClick={selectTrump} className="trump-choice" data-trump="Spades">
         Spades
       </div>
-      <div onClick={chooseTrump} className="trump-choice" data-trump="hearts">
+      <div onClick={selectTrump} className="trump-choice" data-trump="Hearts">
         Hearts
       </div>
-      <div onClick={chooseTrump} className="trump-choice" data-trump="clubs">
+      <div onClick={selectTrump} className="trump-choice" data-trump="Clubs">
         Clubs
       </div>
-      <div onClick={chooseTrump} className="trump-choice" data-trump="diamonds">
+      <div onClick={selectTrump} className="trump-choice" data-trump="Diamonds">
         Diamonds
       </div>
     </div>

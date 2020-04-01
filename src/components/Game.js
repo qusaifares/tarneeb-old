@@ -155,10 +155,12 @@ const Game = props => {
     });
   };
   const selectTrump = e => {
+    console.log('select trump');
     // create rule so only winning bidder can do this
     socket.emit('select_trump', {
       playerNumber,
-      trump: e.target.dataset.trump
+      trump: e.target.dataset.trump,
+      roomName
     });
   };
 
